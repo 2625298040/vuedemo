@@ -162,15 +162,6 @@
             </div>
           </div>
         </div>
-
-        <div class="middle-five">
-          <span>
-            客户服务
-            <i>></i>
-          </span>
-        </div>
-
-        <div>为你推荐</div>
       </div>
     </scroll>
   </div>
@@ -290,14 +281,14 @@ export default {
         .tu-two {
           width: 20%;
           text-align: center;
-          color: #666;
+          color: black;
           font-size: 12px;
           margin-top: 10px;
           span {
             font-size: 10px;
             line-height: 18px;
             height: 18px;
-            color: #e93b3d;
+            color: black;
           }
           img {
             width: 20px;
