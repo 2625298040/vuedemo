@@ -337,7 +337,7 @@ export default {
         .personal-sm {
           position: absolute;
           left: 12%;
-          bottom: -20px;
+          // bottom: -20px;
           z-index: 1;
           transform: translateX(-50%);
           padding: 0 5px 0 6px;

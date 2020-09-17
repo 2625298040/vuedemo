@@ -1,13 +1,27 @@
 <template>
   <div :id="divID">
     <!-- feature -->
-    <div class="feature" @touchstart.capture="touchStart" @touchmove.capture="touchMove" @touchend.capture="touchEnd">
+    <div
+      class="feature"
+      @touchstart.capture="touchStart"
+      @touchmove.capture="touchMove"
+      @touchend.capture="touchEnd"
+    >
       <slot>
         <!-- 被FeatureItem中的ul代替 -->
       </slot>
     </div>
     <!-- 小按钮 -->
-    <div></div>
+    <div class="indexIcator" v-if="itemLength > 1">
+      <slot name="indexIcator">
+        <div
+          v-for="(item,index) in itemLength"
+          :key="index"
+          class="round-item"
+          :class="{active:index === currentIndex}"
+        ></div>
+      </slot>
+    </div>
   </div>
 </template>
 
@@ -237,10 +251,29 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang='less' scoped>
 .feature {
   display: flex;
   position: relative;
   /* width: 100vw; */
+}
+
+.indexIcator {
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  justify-content: center;
+  width: 100%;
+  .round-item {
+    width: 10px;
+    height: 4px;
+    border-radius: 5px;
+    background-color: rgba(151, 151, 151, 0.486);
+    font-size: 10px;
+    margin: 5px;
+  }
+  .round-item.active {
+    background-color: red;
+  }
 }
 </style>

@@ -341,6 +341,68 @@
 .el-message-box {
   width: 80% !important;
 }
+
+.quickOrder {
+  margin-top: -16px;
+  .qo_phone {
+    margin: 0 10px 10px;
+    position: relative;
+    height: 46px;
+    line-height: 46px;
+    border-radius: 4px;
+    .area_box {
+      position: absolute;
+      width: 72px;
+      height: 46px;
+      top: 0;
+      left: 0;
+      line-height: 50px;
+    }
+    input {
+      display: block;
+      width: 100%;
+      height: 46px;
+      box-sizing: border-box;
+      padding: 0 96px 0 10px;
+      padding-left: 96px;
+      padding-right: 10px;
+      background: #f7f7f7;
+      border: none;
+      outline: none;
+    }
+  }
+  .qo_detailsBox {
+    margin-bottom: 15px;
+    background: #fff;
+    margin-top: 20px;
+    .qo_detailsBox_item {
+      display: flex;
+      position: relative;
+      margin-left: 10px;
+      height: 46px;
+      font-size: 16px;
+      label {
+        width: 74px;
+        line-height: 46px;
+        color: #333;
+      }
+      input {
+        padding-right: 20px;
+        flex: 1;
+        border: none;
+        outline: none;
+      }
+    }
+  }
+  button.keep {
+    width: 90%;
+    height: 50px;
+    background: red;
+    border: none;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+}
 </style>
 <template>
   <div id="confirmOrder">
@@ -351,7 +413,7 @@
         </div>
         <div slot="center">确认订单</div>
         <div slot="right">
-          <span @click="$store.commit('ROUTERTO','/home')" v-if="!isShow">去登录</span>
+          <span @click="$store.commit('ROUTERTO','/login')" v-if="!isShow">去登录</span>
         </div>
       </nav-bar>
       <div v-if="isShow">
@@ -367,130 +429,145 @@
             <p>{{address.takeover_addr}}</p>
           </div>
         </div>
-      </div>
-      <div v-if="!isShow">
-        用户没有登录的显示
-        <div>
-          电话
-          <input type="text" />
-        </div>
-        <div>
-          验证码
-          <input type="text" />
-        </div>
-        <hr />
-        <div>配送信息</div>
-        <div>
-          姓名
-          <input type="text" />
-        </div>
-        <div>
-          电话
-          <input type="text" />
-        </div>
-        <div>
-          城市
-          <input type="text" />
-        </div>
-        <div>
-          详细信息
-          <input type="text" />
-        </div>
-        <div>
-          <input type="button" value="提交" />
-        </div>
-        {{shop}}
-      </div>
-      <div class="order-con">
-        <div class="order-list" v-for="(item,index) in shop" :key="index">
-          <dt>
-            <i></i>
-            <span>{{item.shop_name}}</span>
-          </dt>
-          <dd class="order-shopm">
-            <img :src="$store.state.urlPath+'/goods/'+item.img_cover" alt />
-            <div class="order-sm-r">
-              <strong>{{item.goods_name}}</strong>
-              <p>
-                ￥{{item.money_now}}.00
-                <span style="float:right">x{{item.num}}</span>
-              </p>
-            </div>
-            <div class="zhuyi">
-              <ul>
-                <li>
-                  <img alt />
-                  支持7天无理由退货
-                </li>
-                <li>
-                  <img alt class="jiage" />
-                  价格说明
-                </li>
-              </ul>
-            </div>
-          </dd>
+        <div class="order-con">
+          <div class="order-list" v-for="(item,index) in shop" :key="index">
+            <dt>
+              <i></i>
+              <span>{{item.shop_name}}</span>
+            </dt>
+            <dd class="order-shopm">
+              <img :src="$store.state.urlPath+'/goods/'+item.img_cover" alt />
+              <div class="order-sm-r">
+                <strong>{{item.goods_name}}</strong>
+                <p>
+                  ￥{{item.money_now}}.00
+                  <span style="float:right">x{{item.num}}</span>
+                </p>
+              </div>
+              <div class="zhuyi">
+                <ul>
+                  <li>
+                    <img alt />
+                    支持7天无理由退货
+                  </li>
+                  <li>
+                    <img alt class="jiage" />
+                    价格说明
+                  </li>
+                </ul>
+              </div>
+            </dd>
 
-          <dd class="peisong">
-            <strong>配送</strong>
-            <p>快递运输</p>
-            <div class="pei-justify">
-              <div class="left">中小件送货时间</div>工作日、双休日与节假日均可送货
-            </div>
-          </dd>
+            <dd class="peisong">
+              <strong>配送</strong>
+              <p>快递运输</p>
+              <div class="pei-justify">
+                <div class="left">中小件送货时间</div>工作日、双休日与节假日均可送货
+              </div>
+            </dd>
 
-          <dd class="peisong">
-            <strong>退换无忧</strong>
-            <div style="font-size: 12px;color:#666;line-height:24px;">退换货可获运费赔付或免费取件</div>
-            <p style="color:red;float: right;margin-top: -20px;">商家赠送</p>
-          </dd>
+            <dd class="peisong">
+              <strong>退换无忧</strong>
+              <div style="font-size: 12px;color:#666;line-height:24px;">退换货可获运费赔付或免费取件</div>
+              <p style="color:red;float: right;margin-top: -20px;">商家赠送</p>
+            </dd>
 
-          <dd class="peisong">
-            <strong>店铺备注</strong>
-            <p>选填,给商家留言</p>
-          </dd>
-        </div>
-        <div class="detailed">
-          <dd class="detail">
-            <strong>发票信息</strong>
-            <p>个人商品明细</p>
-          </dd>
-          <dd class="detail">
-            <strong>礼品卡</strong>
-            <p>无可用</p>
-          </dd>
-          <dd class="detail">
-            <strong>红包</strong>
-            <p>不可用</p>
-          </dd>
-          <dd class="detail">
-            <strong>京豆</strong>
-            <p>共12个,未满1000个,暂不可使用</p>
-          </dd>
-        </div>
+            <dd class="peisong">
+              <strong>店铺备注</strong>
+              <p>选填,给商家留言</p>
+            </dd>
+          </div>
+          <div class="detailed">
+            <dd class="detail">
+              <strong>发票信息</strong>
+              <p>个人商品明细</p>
+            </dd>
+            <dd class="detail">
+              <strong>礼品卡</strong>
+              <p>无可用</p>
+            </dd>
+            <dd class="detail">
+              <strong>红包</strong>
+              <p>不可用</p>
+            </dd>
+            <dd class="detail">
+              <strong>京豆</strong>
+              <p>共12个,未满1000个,暂不可使用</p>
+            </dd>
+          </div>
 
-        <div class="shopMoney" v-for="(i,j) in shop" :key="j">
-          <dd class="detail">
-            <strong>商品金额</strong>
-            <p>￥{{i.money_now*i.num}}.00</p>
-          </dd>
-          <dd class="detail">
-            <strong>运费</strong>
-            <p>+￥0.00</p>
-          </dd>
-          <h5 style="margin-right:18px;text-align:right">实际金额：￥{{i.money_now*i.num}}.00</h5>
-        </div>
+          <div class="shopMoney" v-for="(i,j) in shop" :key="j">
+            <dd class="detail">
+              <strong>商品金额</strong>
+              <p>￥{{i.money_now*i.num}}.00</p>
+            </dd>
+            <dd class="detail">
+              <strong>运费</strong>
+              <p>+￥0.00</p>
+            </dd>
+            <h5 style="margin-right:18px;text-align:right">实际金额：￥{{i.money_now*i.num}}.00</h5>
+          </div>
 
-        <el-button
-          type="primary"
-          round
-          style="width:90%;font-size:16px;margin-top:20px"
-          @click="payment"
-        >在线支付</el-button>
-        <!-- <button @click="payment">确认订单-跳转支付页面-也可以打开一个模态框 进行支付</button> -->
-        <div class="jd_footer">
-          <div></div>
+          <el-button
+            type="primary"
+            round
+            style="width:90%;font-size:16px;margin-top:20px"
+            @click="payment"
+          >在线支付</el-button>
+          <!-- <button @click="payment">确认订单-跳转支付页面-也可以打开一个模态框 进行支付</button> -->
+          <div class="jd_footer">
+            <div></div>
+          </div>
         </div>
       </div>
+      <div v-if="!isShow" class="quickOrder">
+        <div style="margin-bottom:20px;background:#fff;padding-bottom:20px">
+          <div
+            style="line-height:50px;font-size:16px;color:#333;margin:0 10px;height:50px;text-align:left"
+          >
+            <p>快捷下单验证</p>
+          </div>
+
+          <div class="qo_phone">
+            <label class="area_box">
+              <span>+86</span>
+            </label>
+            <input type="text" />
+          </div>
+
+          <div class="qo_phone">
+            <label class="area_box">
+              <span style="font-size:12px;color:red">发送验证码</span>
+            </label>
+            <input type="text" />
+          </div>
+        </div>
+
+        <div class="qo_detailsBox">
+          <div class="qo_detailsBox_item">
+            <label for>收货人</label>
+            <input type="text" placeholder="姓名" />
+          </div>
+          <div class="qo_detailsBox_item">
+            <label for>手机号码</label>
+            <input type="text" placeholder="手机或电话号码" />
+          </div>
+          <div class="qo_detailsBox_item">
+            <label for>所在地区</label>
+            <input type="text" placeholder="选择省市区县" />
+          </div>
+          <div class="qo_detailsBox_item">
+            <label for>详细地址</label>
+            <input type="text" placeholder="街道、楼牌号等信息" />
+          </div>
+        </div>
+
+        <button class="keep">保存信息</button>
+        <div>
+          <img src alt />
+        </div>
+      </div>
+
       <!-- 用户登陆后 订单没有详细配送地址的 遮罩层 -->
       <div v-if="replaceAddr" class="replaceAddr">
         <div>

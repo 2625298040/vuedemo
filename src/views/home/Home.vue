@@ -1,11 +1,24 @@
 <template>
   <div id="home">
-    <nav-bar class="home-nav-bar" @leftBarClick="toCategory">
-      <div slot="left">分类</div>
-      <div slot="center">
-        <el-input v-model="input" placeholder="请输入内容" v-on:focus="toKeywords"></el-input>
+    <nav-bar class="home-nav-bar">
+      <div slot="left">
+        <div class="category" slot="left" v-on:click="$store.commit('ROUTERTO','/category')"></div>
       </div>
-      <div slot="right">登录</div>
+      <div slot="center">
+        <i class="jd"></i>
+        <i class="fangdajing"></i>
+        <div class="search-box">
+          <input type="text" placeholder="好孩子婴儿推车" v-on:focus="toKeywords('/keyword')" />
+        </div>
+        <!-- <input v-model="input" placeholder="请输入内容" class="souIpt"  /> -->
+      </div>
+      <div slot="right">
+        <!-- 登录前 -->
+        <span v-if="!$store.state.userInfo" @click="tologin('/login')">登录</span>
+
+        <!-- 登录后 -->
+        <span v-else class="el-icon-s-custom" @click="toprofile('/profile')"></span>
+      </div>
     </nav-bar>
     <hr />
     <scroll
@@ -17,10 +30,12 @@
       @pullingUp="loadMore"
     >
       <!-- 轮播图 -->
-      <home-rotation :cbanners="banners"></home-rotation>
-      <hr />
+      <div class="navbg">
+        <home-rotation :cbanners="banners"></home-rotation>
+        <hr />
+      </div>
       <!-- 功能视图 -->
-      <home-feature :cfeature="feature" @cfeatureAll='toFeatureAll'></home-feature>
+      <home-feature :cfeature="feature" @cfeatureAll="toFeatureAll"></home-feature>
       <hr />
       <div>
         <button style="width:100%" @click="changeDirection">改变商品数据排列</button>
@@ -56,9 +71,9 @@ import HomeFeature from "./childComp/HomeFeature";
 import { debounce } from "common/utils";
 //引入其他文件
 //引入网络请求模块部分组件/方法
-import { getHomeBanner, getFeature} from "network/home";
+import { getHomeBanner, getFeature } from "network/home";
 //取商品数据
-import { getGoods} from "network/goods";
+import { getGoods } from "network/goods";
 
 export default {
   name: "Home",
@@ -90,11 +105,12 @@ export default {
         like: "", //模糊查询
         order: {
           // c2_id: "UtoD",
-          // money_now: "DtoU", 
+          // money_now: "DtoU",
         },
         minMoney: 0,
-        maxMoney: 0, 
-        exact: {//精确查找
+        maxMoney: 0,
+        exact: {
+          //精确查找
         },
       },
     };
@@ -122,7 +138,7 @@ export default {
     console.log("组件激活状态");
     //在组件激活的时候，调整滚动条的位置。
     console.log(this.saveY);
-    this.$refs.homeScrollCom.scroll.scrollTo(0 , this.saveY , 0);
+    this.$refs.homeScrollCom.scroll.scrollTo(0, this.saveY, 0);
     // this.$refs.homeScrollCom.scrollTo1(0, this.saveY, 0);
     // this.$refs.homeScrollCom.refreshScroll();
   },
@@ -173,9 +189,9 @@ export default {
     getGoodsMax(type) {
       // let page = this.goods[type].page + 1;
       let data = {
-        page:this.goods[type].page + 1,
-        pagesize:10
-      }
+        page: this.goods[type].page + 1,
+        pagesize: 10,
+      };
       getGoods(data).then((res) => {
         // console.log(res);
         this.goods[type].page += 1;
@@ -204,10 +220,18 @@ export default {
       console.log("focus");
       this.$router.push("/keywords");
     },
+    //跳转login页面
+    tologin() {
+      this.$router.push("/login");
+    },
+    //
+    toprofile() {
+      this.$router.push("/profile");
+    },
     //点击功能视图的全部，执行的跳转事件
-    toFeatureAll(){
+    toFeatureAll() {
       console.log("功能视图组件的全部被点击触发");
-      this.$router.push('/home/feature')
+      this.$router.push("/home/feature");
     },
     //切换功能视图横纵向展示事件
     changeDirection() {
@@ -232,20 +256,30 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang='less' scoped>
+.category {
+  margin: 14px 0 0 15px;
+  width: 20px;
+  height: 18px;
+  display: block;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAgAgMAAAAdw9KTAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAMUExURUdwTP///////////waf0AoAAAADdFJOUwDjSYAlncUAAAAbSURBVBjTY5j/Hwq+MdTDmH+RmUgK6AuGhcsAU5tyB6Ji+x0AAAAASUVORK5CYII=)
+    no-repeat;
+  background-size: 100% 100%;
+}
 #home {
   /* padding-top: 44px; */
   height: 100vh;
   position: relative;
 }
 .home-nav-bar {
-  background-color: #e43130;
+  background-image: url(https://m.360buyimg.com/mobilecms/s1125x939_jfs/t1/130443/4/9312/6569/5f560374E6edf9c74/aac332227b6b2a16.png);
+
   color: white;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  border-radius: 100%/0 0 20% 20%;
 }
 .homeContent {
   position: absolute;
@@ -253,9 +287,92 @@ export default {
   left: 0;
   right: 0;
   bottom: 49px;
-  /* height:calc(100vh - 93px); */
   overflow: hidden;
 }
+.center i.jd {
+  width: 20px;
+  height: 15px;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAeCAMAAABpA6zvAAAABGdBTUEAALGPC/xhBQAAAAFzUkdCAK7OHOkAAAAzUExURUdwTOo8Puo7Peo7Pek7Peo7Pe0/Qek7PvE+SP9SUuo7Peo7Peo7Pus8P+o7Peo7Pek7PZSxd20AAAAQdFJOUwBV8eG+hyGkEQbGmWs/rthNA0r+AAAA5klEQVQ4y63T0RaDIAgAUEDRUjP//2u3CI/T1vJhvM3uVBAANGx5xwLgiwSZ3TI6uMYANSyuc7AUs03CUvgHRMTEflcZ76FezDGJTE/wTYNI9whhDePhNxAcDVveQWDJbgK6Y8FPQDBH2WdgPlZmYNQvj5D7tP8Ap4+2s8lQX56g4AK34bGPshJ8gbl/wrXoASOUDanlgvVFB3g2T5sGZ2on9xCp23BJ8tusPVzw7O/zhuxtHSIZDYGRo891WUemjeVZgsu4kmY8ju8Ifb2f/i3WV+/gzq0Zgs0xba0eHCSsj4zLR91f1fAfiWsqzlEAAAAASUVORK5CYII=)
+    no-repeat;
+  background-size: 20px 15px;
+  margin: 14px 8px 0 20px;
+  position: relative;
+  z-index: 1;
+  float: left;
+}
+.center i.jd::after {
+  content: "";
+  position: absolute;
+  border-right: 1px solid #ddd;
+  top: 0;
+  left: 26px;
+  height: 16px;
+}
+.center .fangdajing {
+  display: block;
+  width: 18px;
+  height: 15px;
+  background: url(https://st.360buyimg.com/so/images/search/jd-sprites.png?__inline=)
+    no-repeat;
+  background-position: -80px 0;
+  background-size: 200px;
+  margin: 15px 0 0 0;
+  position: relative;
+  z-index: 1;
+  float: left;
+}
+.center .search-box {
+  display: inline-block;
+  width: 70%;
+  border: none;
+  border-radius: 15px;
+  height: 30px;
+  overflow: hidden;
+  background: #f7f7f7;
+  font-size: 12px;
+  -webkit-box-align: center;
+  line-height: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 1.8% 15%;
+  padding-right: 10px;
+  box-sizing: border-box;
+}
+.center .search-box input {
+  border: none;
+  outline: 0;
+  background: 0 0;
+  font-size: 12px;
+  color: #232326;
+  padding-left: 55px;
+  box-sizing: border-box;
+  -webkit-box-flex: 1;
+  height: auto;
+  margin: 0 0 0 20px;
+  vertical-align: middle;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+.souIpt {
+  border-radius: 50px;
+  -webkit-appearance: none;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #dcdfe6;
+  box-sizing: border-box;
+  color: #606266;
+  display: inline-block;
+  font-size: inherit;
+  height: 30px;
+  line-height: 40px;
+  outline: 0;
+  padding: 0 15px;
+  transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+  width: 90%;
+}
+
 .toTop {
   position: absolute;
   bottom: 100px;
@@ -277,16 +394,47 @@ export default {
 }
 .tabContent .tabTitle button {
   width: 50%;
-  height: 40px;
+  height: 64px;
   flex: 1;
+  border: none;
 }
 .tabContent div {
   width: 100%;
+  background: #fff;
 }
 .tabContent div ul {
-  width: 100;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+/* .tabContent div ul li{
+  width:95%;
+  margin:0 2.5%;
+ 
+
+}
+.tabContent div ul li img{
+  width:40%;
+}
+.tabContent div ul li a{
+  width:100%; 
+  display: flex;
+}
+.tabContent div ul li a span{
+  width:58%;
+  padding:1%;
+} */
+.tabContent div ul li {
+  width: 50%;
 }
 .tabContent div ul li img {
-  width: 30%;
+  width: 60%;
+  margin: 0 20%;
+}
+.tabContent div ul li span {
+  width: 98%;
+}
+.tabTitle button:first-child {
+  border-right: 1px solid grey;
 }
 </style>

@@ -195,23 +195,23 @@
       <shops-info :shopsinfo="shopInfo"></shops-info>
 
       <!-- 推荐 -->
-      <div style="height:800px;background-color:#fff;margin-top:10px;">
+      <!-- <div style="height:800px;background-color:#fff;margin-top:10px;">
         <h1>推荐</h1>请求数据库 获取一些与当前商品相关 或者类似的数据
         <hr />推荐组件
         <ul>
           <li>推荐</li>
           <li>猜你喜欢</li>
         </ul>
-      </div>
+      </div>-->
       <!-- 详情 -->
-      <div style="height:800px;background-color:#fff;margin-top:10px;">
+      <!-- <div style="height:800px;background-color:#fff;margin-top:10px;">
         <h1>详情 = 文字 + 图片的组合</h1>
         <ul>
           <li>商品介绍</li>
           <li>规格参数</li>
           <li>售后服务</li>
         </ul>
-      </div>
+      </div>-->
 
       <!-- 遮罩菜单 -->
 
@@ -758,13 +758,14 @@ export default {
 
       let data = window.localStorage.getItem(this.$store.state.localData);
       data =
-        data != undefined && data != null && data != ""
-          ? JSON.parse(data)
-          : {};
+        data != undefined && data != null && data != "" ? JSON.parse(data) : {};
       //为 本地存储中添加 payMentData ， 值为提交到confirmOrder中的数据
-      data.payMentData = this.$store.state.payMentData
+      data.payMentData = this.$store.state.payMentData;
       //存储
-      window.localStorage.setItem(this.$store.state.localData,JSON.stringify(data))
+      window.localStorage.setItem(
+        this.$store.state.localData,
+        JSON.stringify(data)
+      );
 
       this.$router.push("/confirm_order/aaa");
     },

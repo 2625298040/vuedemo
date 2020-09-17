@@ -8,13 +8,13 @@
   >
     <!-- @click="toDetails(citem)" -->
     <!-- <a href="javascript:;"> -->
-    <router-link tag='a' :to="'/details/'+citem.id">
+    <router-link tag="a" :to="'/details/'+citem.id">
       <img :src="itemPath+'/goods/'+ citem.img_cover " @load="loadMore" />
       <span>
         {{citem.name}}
-        <br>
+        <br />
         {{citem.money_now}}
-        <br>
+        <br />
       </span>
     </router-link>
     <!-- </a> -->
@@ -29,33 +29,32 @@ export default {
       type: Object,
       default() {
         return {};
-      }
+      },
     },
     itemPath: {
       type: String,
-      default: "http://106.12.85.17:8090/public/image"
+      default: "http://106.12.85.17:8090/public/image",
     },
     isDirection: {
       type: Boolean, //true 代表独占一行 false 代表不独占一行
-      default: true
+      default: true,
     },
-    bus:{
-      type:String,
-      default:""
-    }
+    bus: {
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
-      num: 0
-    }
+      num: 0,
+    };
   },
   components: {},
   computed: {
     //如果想要计算宽度，则需要在计算属性中，进行宽度/数量的公式
   },
   created() {},
-  mounted() {
-  },
+  mounted() {},
   methods: {
     toDetails(item) {
       console.log(item);
@@ -63,11 +62,11 @@ export default {
     },
     loadMore() {
       //默认情况下。在vue中时不存在有bus总线，使用的时候，需要我们先定义$bus总线
-      if(!this.bus) return 
-      this.$bus.$emit(this.bus)  
-    }
-  }
-}
+      if (!this.bus) return;
+      this.$bus.$emit(this.bus);
+    },
+  },
+};
 </script>
 <style scoped>
 .GoodsListItem {
@@ -82,8 +81,8 @@ export default {
   display: flex;
   flex-wrap: wrap;
   text-decoration: none;
-  color:black;
-  line-height:20px;
+  color: black;
+  line-height: 20px;
 }
 .GoodsListItem.transverse a img {
   width: 40%;

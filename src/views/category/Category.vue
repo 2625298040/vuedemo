@@ -31,11 +31,16 @@
                 浏览记录
                 <el-button type="text" @click="rmHistory">清空</el-button>
               </dt>
-              <dd></dd>
+              <dd v-for="(item,key) in shophistory" :key="key" @click="zaa(item,0)">
+                <img :src="path+item.c3_img" alt />
+                <span>{{item.c3_name}}</span>
+              </dd>
             </dl>
             <dl>
               <dt>热门分类</dt>
-              <dd v-for="(item,key) in secMenuList" :key="key">
+
+              <dd v-for="(item,key) in secMenuList" :key="key" @click="Browhistory(item,1)">
+                <a href></a>
                 <img :src="path + item.c3_img" alt />
                 <span>{{item.c3_name}}</span>
               </dd>
@@ -68,7 +73,7 @@ import Scroll from "components/contents/scroll/Scroll";
 import {
   get_jd_category_one,
   get_jd_category_two,
-  get_jd_category_three
+  get_jd_category_three,
 } from "network/category";
 export default {
   name: "Category",
@@ -90,7 +95,7 @@ export default {
   components: {
     NavBar,
     FeatureTabControl,
-    Scroll
+    Scroll,
   },
   created() {
     //vue实例在创建时的钩子函数
@@ -100,6 +105,11 @@ export default {
     this.get_jd_category_three();
   },
   methods: {
+    Browhistory(a, b) {
+      if (b) this.shophistory.push(a);
+      console.log(a);
+      this.$router.push("/details/" + a.c3_id);
+    },
     //定义业务相关事件
     tabControlClick(index) {
       if (index === "hot") {
@@ -107,12 +117,12 @@ export default {
         //循环遍历 表3，去除c3_ishot == 1的值,存到 secMenuList中
         //filter本身会返回一个新数组
         this.secMenuList = [
-          ...this.jd_category_three.filter(threeList => {
+          ...this.jd_category_three.filter((threeList) => {
             if (threeList.c3_ishot == 1) {
               return true; // 条件成立 存到新数组
             }
             return false; //条件不成立，不村
-          })
+          }),
         ];
         // this.secMenuList = this.jd_category_three.filter(threeList => {
         //   if (threeList.c3_ishot == 1) {
@@ -124,10 +134,10 @@ export default {
       } else {
         this.secMenuList = {};
 
-        this.jd_category_two.forEach(twoList => {
+        this.jd_category_two.forEach((twoList) => {
           if (twoList.c1_id == index) {
             this.secMenuList[twoList.c2_name] = {};
-            this.jd_category_three.forEach(threeList => {
+            this.jd_category_three.forEach((threeList) => {
               if (threeList.c2_id == twoList.c2_id) {
                 this.secMenuList[twoList.c2_name][
                   threeList.c3_name
@@ -149,44 +159,46 @@ export default {
       this.$confirm("是否删除浏览记录?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
-        type: "warning"
+        type: "warning",
       })
         .then(() => {
           that.shophistory = [];
           this.$message({
             type: "success",
-            message: "删除成功!"
+            message: "删除成功!",
           });
         })
         .catch(() => {
           this.$message({
             type: "info",
-            message: "已取消删除"
+            message: "已取消删除",
           });
         });
       // console.log(this.$message());
     },
+
     contentScroll(position) {
       console.log("contentScroll被使用", position);
     },
     //网络请求
     get_jd_category_one() {
-      get_jd_category_one().then(res => {
+      get_jd_category_one().then((res) => {
         // console.log(res);
         if (res.code == 200 && res.data) this.jd_category_one.push(...res.data);
       });
     },
     get_jd_category_two() {
-      get_jd_category_two().then(res => {
+      get_jd_category_two().then((res) => {
         // console.log(res);
         if (res.code == 200 && res.data) this.jd_category_two.push(...res.data);
       });
     },
     get_jd_category_three() {
-      get_jd_category_three().then(res => {
+      get_jd_category_three().then((res) => {
         // console.log(res);
         if (res.code == 200 && res.data)
           this.jd_category_three.push(...res.data);
+        console.log(this.controlIndex);
         this.tabControlClick(this.controlIndex);
       });
     },
@@ -197,7 +209,7 @@ export default {
     },
     toKeywords() {
       this.$router.push("/keywords");
-    }
+    },
   },
 };
 </script>
