@@ -3,9 +3,18 @@
     <nav-bar class="home-nav-bar">
       <div slot="left" @click="back">&lt;</div>
       <div slot="center">
-        <el-input v-model="input" placeholder="请输入内容" v-on:focus="toKeywords"></el-input>
+        <el-input
+          v-model="input"
+          placeholder="请输入内容"
+          v-on:focus="toKeywords"
+        ></el-input>
       </div>
-      <div slot="right">登录</div>
+      <div slot="right">
+        <span v-if="!$store.state.userInfo" @click="tologin('/login')"
+          >登陆</span
+        >
+        <span v-else></span>
+      </div>
     </nav-bar>
     <div id="category">
       <scroll class="one" ref="one">
@@ -15,10 +24,11 @@
           @tabClick="tabControlClick"
           ref="categoryControl"
         >
-          <div @click="tabControlClick('hot')" :class="{active:controlIndex == 'hot'}">
+          <div
+            @click="tabControlClick('hot')"
+            :class="{ active: controlIndex == 'hot' }"
+          >
             <span>热门推荐</span>
-            --
-            <span>0</span>
           </div>
         </feature-tab-control>
       </scroll>
@@ -31,28 +41,35 @@
                 浏览记录
                 <el-button type="text" @click="rmHistory">清空</el-button>
               </dt>
-              <dd v-for="(item,key) in shophistory" :key="key" @click="zaa(item,0)">
-                <img :src="path+item.c3_img" alt />
-                <span>{{item.c3_name}}</span>
+              <dd
+                v-for="(item, key) in shophistory"
+                :key="key"
+                @click="zaa(item, 0)"
+              >
+                <img :src="path + item.c3_img" alt />
+                <span>{{ item.c3_name }}</span>
               </dd>
             </dl>
             <dl>
               <dt>热门分类</dt>
-
-              <dd v-for="(item,key) in secMenuList" :key="key" @click="Browhistory(item,1)">
+              <dd
+                v-for="(item, key) in secMenuList"
+                :key="key"
+                @click="Browhistory(item, 1)"
+              >
                 <a href></a>
                 <img :src="path + item.c3_img" alt />
-                <span>{{item.c3_name}}</span>
+                <span>{{ item.c3_name }}</span>
               </dd>
             </dl>
           </div>
           <div v-if="controlIndex != 'hot'">
-            <dl v-for="(list,index) in secMenuList" :key="index">
-              <dt>{{index}}</dt>
-              <dd v-for="(item,key) in list" :key="key">
-                <a :href="'/details/'+item">
+            <dl v-for="(list, index) in secMenuList" :key="index">
+              <dt>{{ index }}</dt>
+              <dd v-for="(item, key) in list" :key="key">
+                <a :href="'/details/' + item">
                   <img :src="path + item.c3_img" alt />
-                  <span>{{item.c3_name}}</span>
+                  <span>{{ item.c3_name }}</span>
                 </a>
               </dd>
             </dl>
@@ -88,7 +105,7 @@ export default {
       secMenuList: null, //可能是数组，也可能是对象
       controlIndex: "hot",
       path: "http://106.12.85.17:8090/public/image/jd_category/",
-      shophistory: [1], // 已经浏览的记录  在发生页面跳转后，在路由守卫中记录当前请求的数据，并在页面跳转前，存储到shophistory中(把整个three中找到的那条数据存进来)
+      shophistory: [], // 已经浏览的记录  在发生页面跳转后，在路由守卫中记录当前请求的数据，并在页面跳转前，存储到shophistory中(把整个three中找到的那条数据存进来)
       input: "",
     };
   },
@@ -207,6 +224,10 @@ export default {
       // window.history.go(-1)
       // console.log(document.referrer);
     },
+    //登陆
+    tologin() {
+      this.$router.push("/login");
+    },
     toKeywords() {
       this.$router.push("/keywords");
     },
@@ -220,7 +241,7 @@ export default {
 }
 .one {
   flex: 1;
-  background-color: #dcdcdc;
+  background: #f8f8f8;
   height: calc(100vh - 93px);
   overflow: hidden;
 }
@@ -253,7 +274,8 @@ export default {
   }
 }
 .active {
-  color: red;
+  background-color: #fff;
+  color: #e93b3d;
 }
 .two dl {
   display: flex;

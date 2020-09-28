@@ -19,6 +19,8 @@ const AllAddr = () => import('views/confirmOrder/childComp/allAddr')
 const NewAddr = () => import('views/confirmOrder/childComp/newAddr')
 //订单
 const Order = () => import('views/order/Order')
+//我的订单
+const myOrder = () => import('views/order/myOrder');
 //支付
 const Payment = () => import('views/order/Payment')
 const routes = [
@@ -159,13 +161,48 @@ const routes = [
     },
     component: Order
   },
+  {//我的订单
+    path: '/myOrder', //暂时直接传递商品数据
+    meta: {
+      title: "订单页面"
+    },
+    component: myOrder
+  },
   {//店铺页面
     path: '/shops/:id', //暂时直接传递商品数据
     meta: {
       title: "店铺页"
     },
     component: () => import('views/shops/Shops'),
+    children: [
+      {
+        path: '/',
+        redirect: 'page1'
 
+      },
+      {
+        path: 'page1',
+        name: 'jingxuan',
+        meta: {
+          title: "精选"
+        },
+      },
+      {
+        path: 'page3'
+      },
+      {
+        path: 'page4'
+      },
+      {
+        path: 'page5'
+      },
+      {
+        path: 'page6'
+      },
+      {
+        path: 'page7'
+      },
+    ]
   },
 ]
 

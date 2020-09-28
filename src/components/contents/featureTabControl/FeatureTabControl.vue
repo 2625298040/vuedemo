@@ -63,7 +63,7 @@ export default {
   line-height: 40px;
 }
 .tabControl div {
-  border-bottom: 1px solid #555555;
+  // border-bottom: 1px solid #555555;
   height: 40px;
 }
 .active {

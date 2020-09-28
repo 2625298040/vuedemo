@@ -123,6 +123,17 @@ export default {
   //登录后,获取自动登录码，并设置本地存储
   [types.SET_USERINFO](state, payload) {
     console.log(payload);
+
+    //把返回的用户信息中的收藏店铺做处理
+    if (payload.data.user.collectShop && payload.data.user.collectShop != "") {//存储有值
+      //有值 做分隔 变成数组
+      //1，2，3，4，5
+      payload.data.user.collectShop = payload.data.user.collectShop.split(',')
+
+    } else {
+      payload.data.user.collectShop = []
+    }
+
     state.userInfo = {}
     for (let i in payload.data.user) {
       state.userInfo[i] = payload.data.user[i]
@@ -136,13 +147,13 @@ export default {
     window.localStorage.setItem(state.localData, JSON.stringify(data))
     //如果本地存储购物车有数据，则把购物车的数据和当前用户购物车合并，并删除本地存储的购物车
 
-    
+
     if (data.shopCart != undefined && data.shopCart.length > 0) {
       Promise.all([...data.shopCart.map(item => {
         item.user_id = state.userInfo.id
         return new Promise((resolve, reject) => {
           addShopCart(item).then(res => {
-            if(res.code != 200) reject("添加异常")
+            if (res.code != 200) reject("添加异常")
             resolve(res)
           })
         })
@@ -169,10 +180,10 @@ export default {
         }
         //对于我们来说。合并不需要那么复杂，不论成功还是失败。都删除本地存储购物车
         */
-      },err=>{
+      }, err => {
         console.log(err);
       })
-    }else{
+    } else {
       state.loading = false
     }
   },

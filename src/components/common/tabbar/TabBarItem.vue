@@ -1,19 +1,18 @@
 <template>
   <div class="tab-bar-item" @click="itemClick" :style="activeStyle">
-      <!-- 用来插入图片 -->
-      <div v-if="!isActive">
-        <slot name="item-icon"></slot>
-      </div>
-      <!-- 用来插入选中后的图片 -->
-      <div v-else>
-        <slot name="item-icon-active"></slot>
-      </div>
-
-      <!-- 文本 -->
-      <div>
-        <slot name="item-text"></slot>
-      </div>
+    <!-- 用来插入图片 -->
+    <div v-if="!isActive">
+      <slot name="item-icon"></slot>
     </div>
+    <!-- 用来插入选中后的图片 -->
+    <div v-else>
+      <slot name="item-icon-active"></slot>
+    </div>
+    <!-- 文本 -->
+    <div>
+      <slot name="item-text"></slot>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -22,7 +21,7 @@ export default {
   props: {
     //接收父组件传递的path值
     path: {
-      type: String
+      type: String,
     },
     cstyle: {
       type: Object,
@@ -31,27 +30,29 @@ export default {
           bgcolor: "transparent",
           activeBG: "transparent",
           color: "black",
-          activeTxt: "red"
+          activeTxt: "red",
         };
-      }
-    }
+      },
+    },
   },
   computed: {
     //通过计算属性来让tabbar的active效果改变
     isActive() {
       return this.$route.path.indexOf(this.path) !== -1;
     },
-    activeStyle(){
-      return this.isActive ? {color:this.cstyle.activeTxt,background:this.cstyle.activeBG}: {color:this.cstyle.color,background:this.cstyle.bgcolor}
-    }
+    activeStyle() {
+      return this.isActive
+        ? { color: this.cstyle.activeTxt, background: this.cstyle.activeBG }
+        : { color: this.cstyle.color, background: this.cstyle.bgcolor };
+    },
   },
   methods: {
     itemClick() {
-      if(this.path == this.$store.state.SKnavigation) return;
+      if (this.path == this.$store.state.SKnavigation) return;
       this.$router.push(this.path); //category
       console.log(this.$route.path);
-    }
-  }
+    },
+  },
 };
 </script>
 

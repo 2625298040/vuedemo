@@ -15,10 +15,10 @@
     <div class="indexIcator" v-if="itemLength > 1">
       <slot name="indexIcator">
         <div
-          v-for="(item,index) in itemLength"
+          v-for="(item, index) in itemLength"
           :key="index"
           class="round-item"
-          :class="{active:index === currentIndex}"
+          :class="{ active: index === currentIndex }"
         ></div>
       </slot>
     </div>

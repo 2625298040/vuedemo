@@ -2,12 +2,19 @@
   <div id="CartTabBar">
     <div class="select-money">
       <label for="allCheck" v-on:click="$emit('checkall')">
-        <input type="checkbox" id='allCheck' />全选
-        </label> 
+        <input type="checkbox" id="allCheck" />全选
+      </label>
       <div class="allMoney">合计:{{totalPayment | changePrice("￥")}}</div>
     </div>
     <div class="btn">
-        <input type="submit" class="settlement" v-on:click="$emit('confirm')" :value="'去结算('+totalNum+')'" :disabled='totalNum == 0' :class='{disabled:totalNum == 0}'>
+      <input
+        type="submit"
+        class="settlement"
+        v-on:click="$emit('confirm')"
+        :value="'去结算('+totalNum+')'"
+        :disabled="totalNum == 0"
+        :class="{disabled:totalNum == 0}"
+      />
     </div>
   </div>
 </template>
@@ -16,12 +23,12 @@
 export default {
   name: "DetailsTabBar",
   computed: {
-    totalPayment(){
-      return this.$store.state.totalPayment
+    totalPayment() {
+      return this.$store.state.totalPayment;
     },
-    totalNum(){
-      return this.$store.state.totalNum
-    }
+    totalNum() {
+      return this.$store.state.totalNum;
+    },
   },
   filters: {
     changePrice(val, str = "$") {
@@ -44,14 +51,14 @@ export default {
   div.select-money {
     width: 70vw;
     display: flex;
-    padding:0 15px;
-    input{
-      width:16px;
-      height:16px;
-      margin-right:5px;
+    padding: 0 15px;
+    input {
+      width: 16px;
+      height: 16px;
+      margin-right: 5px;
     }
-    .allMoney{
-      margin-left:20px;
+    .allMoney {
+      margin-left: 20px;
     }
   }
   div.btn {
@@ -66,12 +73,12 @@ export default {
       font-size: 14px;
       padding: 0 13px;
       color: #fff;
-      background:rgba(255,0,0,1);
+      background: rgba(255, 0, 0, 1);
       outline: none;
       border: none;
     }
-    input.disabled{
-      background:rgba(255,0,0,.3);
+    input.disabled {
+      background: rgba(255, 0, 0, 0.3);
     }
   }
 }

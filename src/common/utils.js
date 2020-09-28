@@ -110,24 +110,31 @@ export class Evaluate {
 
 //获取details提交到确认订单页面的数据 ---- 可以修改的值不在此处获取 例如   num  norm  addr
 export class orderConfirmData {
-    constructor(goods,shops) {
+    constructor(goods, shops) {
         //商品id
-        this.goods_id =  goods.id
+        this.goods_id = goods.id
         //商品名
-        this.goods_name =  goods.name
+        this.goods_name = goods.name
         //商品热搜关键字
-        this.hot_keyword =  goods.hot_keyword
+        this.hot_keyword = goods.hot_keyword
         //商品展示图
-        this.img_cover =  goods.img_cover
+        this.img_cover = goods.img_cover
         //新价格
-        this.money_now =  goods.money_now
+        this.money_now = goods.money_now
         //原价格
-        this.money_old =  goods.money_old
+        this.money_old = goods.money_old
         //店铺id
-        this.shop_id =  shops.id
+        this.shop_id = shops.id
         //店铺名
-        this.shop_name =  shops.shopName
+        this.shop_name = shops.shopName
     }
+}
+
+
+export function haveData(name, a, callback) {
+    name(a).then((res) => {
+        callback(res)
+    });
 }
 
 

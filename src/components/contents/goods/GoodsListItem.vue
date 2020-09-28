@@ -10,12 +10,9 @@
     <!-- <a href="javascript:;"> -->
     <router-link tag="a" :to="'/details/'+citem.id">
       <img :src="itemPath+'/goods/'+ citem.img_cover " @load="loadMore" />
-      <span>
-        {{citem.name}}
-        <br />
-        {{citem.money_now}}
-        <br />
-      </span>
+      <span class="similar_text">{{citem.name}}</span>
+      <span style="float:left">{{citem.money_now}}</span>
+      <span style="float:right" @click="/details/">看相似</span>
     </router-link>
     <!-- </a> -->
   </div>
@@ -69,9 +66,9 @@ export default {
 };
 </script>
 <style scoped>
-.GoodsListItem {
+/* .GoodsListItem {
   border-bottom: 3px solid black;
-}
+} */
 .GoodsListItem.transverse {
   /* transverse 横向---独占一行 */
   width: 100%;
@@ -107,5 +104,19 @@ export default {
   text-align: left;
   display: block;
   line-height: 40px;
+  box-sizing: border-box;
+  height: 31px;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+  color: #232326;
+  margin-top: 5px;
+  line-height: 16px;
+  margin-bottom: 3px;
+  padding: 0 4px;
 }
 </style>>style>

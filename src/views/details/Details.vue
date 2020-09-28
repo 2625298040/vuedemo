@@ -119,7 +119,12 @@
 <template>
   <div id="details" v-loading="loading">
     <details-nav-bar ref="detailsNavBar" :title="titleArr"></details-nav-bar>
-    <scroll class="detailsScroll" ref="DetailsScroll" @parentScroll="getScrollY" :probeType="3">
+    <scroll
+      class="detailsScroll"
+      ref="DetailsScroll"
+      @parentScroll="getScrollY"
+      :probeType="3"
+    >
       <details-banner :dfeature="goodsImg"></details-banner>
       <div class="message">
         <!-- 商品信息 -->
@@ -129,11 +134,10 @@
         <div class="discount" @click="open('discount')">
           <div class="left">优惠</div>
           <div class="right">
+            <div><span>换购</span>是否有换购---有 显示,没有不选是</div>
             <div>
-              <span>换购</span>是否有换购---有 显示,没有不选是
-            </div>
-            <div>
-              <span>限购</span>是否有限购---有 显示,没有不选是 111 111 111 1 11 11
+              <span>限购</span>是否有限购---有 显示,没有不选是 111 111 111 1 11
+              11
             </div>
             <span class="icon el-icon-more"></span>
           </div>
@@ -143,7 +147,7 @@
           <div class="left">已选</div>
           <div class="right">
             <span>规格....</span>
-            <span>{{orderSel.order_num}}个</span>
+            <span>{{ orderSel.order_num }}个</span>
 
             <span class="icon el-icon-more"></span>
           </div>
@@ -152,10 +156,10 @@
         <div class="distribution" @click="open('distribution')">
           <div class="left">送至</div>
           <div class="right">
-            <p>{{addr | changeAddr}}</p>
+            <p>{{ address | changeAddr }}</p>
             <p>
               <span v-if="true" title="库存有货则显示">现货</span>
-              {{getDistributionTime}}
+              {{ getDistributionTime }}
             </p>
             <span class="icon el-icon-more"></span>
           </div>
@@ -186,7 +190,10 @@
       </div>
 
       <!--评价 自定义 一个变量数组 暂时使用 -->
-      <details-evaluate :evaluate="detailsEvaluate" :cDetailsId="detailsId"></details-evaluate>
+      <details-evaluate
+        :evaluate="detailsEvaluate"
+        :cDetailsId="detailsId"
+      ></details-evaluate>
       <!-- 问答 -->
 
       <!-- 体验 -->
@@ -195,23 +202,25 @@
       <shops-info :shopsinfo="shopInfo"></shops-info>
 
       <!-- 推荐 -->
-      <!-- <div style="height:800px;background-color:#fff;margin-top:10px;">
-        <h1>推荐</h1>请求数据库 获取一些与当前商品相关 或者类似的数据
-        <hr />推荐组件
+      <div style="height: 800px; background-color: #fff; margin-top: 10px">
+        <h1>推荐</h1>
+        请求数据库 获取一些与当前商品相关 或者类似的数据
+        <hr />
+        推荐组件
         <ul>
           <li>推荐</li>
           <li>猜你喜欢</li>
         </ul>
-      </div>-->
+      </div>
       <!-- 详情 -->
-      <!-- <div style="height:800px;background-color:#fff;margin-top:10px;">
+      <div style="height: 800px; background-color: #fff; margin-top: 10px">
         <h1>详情 = 文字 + 图片的组合</h1>
         <ul>
           <li>商品介绍</li>
           <li>规格参数</li>
           <li>售后服务</li>
         </ul>
-      </div>-->
+      </div>
 
       <!-- 遮罩菜单 -->
 
@@ -236,20 +245,35 @@
         size="70%"
       >
         <div>
-          <div v-for="(item,index) in selectNorm" :key="index">
-            <div v-for="(i,j) in item" :key="j">
-              <div>{{j}}</div>
+          <div v-for="(item, index) in selectNorm" :key="index">
+            <div v-for="(i, j) in item" :key="j">
+              <div>{{ j }}</div>
               <div
-                v-for="(m,n) in i"
+                v-for="(m, n) in i"
                 :key="n"
-                style="width:90%;height:30px;text-overflow:hidden;overflow:hidden;margin-bottom:10px;text-align:left;background-color:#d4d4d4;line-height:30px;margin-left:5%;border-radius:15px;"
-              >{{m.name}}</div>
+                style="
+                  width: 90%;
+                  height: 30px;
+                  text-overflow: hidden;
+                  overflow: hidden;
+                  margin-bottom: 10px;
+                  text-align: left;
+                  background-color: #d4d4d4;
+                  line-height: 30px;
+                  margin-left: 5%;
+                  border-radius: 15px;
+                "
+              >
+                {{ m.name }}
+              </div>
             </div>
           </div>
           <div class="order_num">
             <div>数量</div>
             <div>
-              <button @click="order_num--" :disabled="orderSel.order_num <= 1">-</button>
+              <button @click="order_num--" :disabled="orderSel.order_num <= 1">
+                -
+              </button>
               <input type="text" v-model="orderSel.order_num" />
               <button @click="orderSel.order_num++">+</button>
             </div>
@@ -273,17 +297,22 @@
         size="70%"
       >
         <ul
-          style="text-align:left;line-height:20px; font-size:14px;padding:0 10px;"
+          style="
+            text-align: left;
+            line-height: 20px;
+            font-size: 14px;
+            padding: 0 10px;
+          "
           v-if="$store.state.userInfo"
         >
           <li
-            style="padding:10px 0;"
-            v-for="(item,index) in allAddress"
+            style="padding: 10px 0"
+            v-for="(item, index) in allAddress"
             :key="index"
-            @click="changeAddr(item.takeover_addr)"
+            @click="changeAddr(item)"
           >
             <!-- 使用过滤器吧地址进行拼接 -->
-            {{ item.takeover_addr | changeAddr}}
+            {{ item.takeover_addr | changeAddr }}
           </li>
         </ul>
         <div v-else>省市县三级列表菜单</div>
@@ -301,7 +330,10 @@
       </el-drawer>
     </scroll>
 
-    <details-tab-bar :addshopcart="addShop" :toaddorder="addOrder"></details-tab-bar>
+    <details-tab-bar
+      :addshopcart="addShop"
+      :toaddorder="addOrder"
+    ></details-tab-bar>
   </div>
 </template>
 
@@ -440,6 +472,23 @@ export default {
     localPath() {
       return this.$store.state.localData;
     },
+    address() {
+      //取出地址中的指定默认配送地址
+      let addr = "";
+      if (this.$store.state.userInfo) {
+        addr = this.$store.state.ShoppingAddress.takeover_addr;
+        console.log(this.$store.state.ShoppingAddress);
+      } else {
+        let data = window.localStorage.getItem(this.localPath);
+        if (data != null && data != "")
+          addr =
+            data.orderAddr != undefined
+              ? data.orderAddr
+              : "北京市,北京市,昌平区,";
+        else addr = "北京市,北京市,昌平区,";
+      }
+      return addr.split(",").join(" ");
+    },
   },
   created() {
     // console.log(this.$router);
@@ -536,6 +585,9 @@ export default {
     changeAddr(val) {
       //存到本地存储中 ， 存储的数据，不去存截取后的值，直接存原值
       this.addr = val;
+      console.log(val);
+      this.$store.state.ShoppingAddress = null;
+      this.$store.state.ShoppingAddress = val;
       let data = window.localStorage.getItem(this.localPath);
       if (data != null) {
         data = JSON.parse(data);

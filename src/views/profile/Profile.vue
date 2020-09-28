@@ -1,5 +1,5 @@
 <template>
-  <div style="background:#f2f2f2">
+  <div>
     <scroll id="ProfileScroll">
       <nav-bar class="cartNavBar" ref="cartNavBar">
         <div slot="left" class="left" v-on:click="$router.go(-1)">
@@ -266,7 +266,7 @@ export default {
       .middle-top-tu {
         background: linear-gradient(90deg, #eb3c3c, #ff7459);
         display: flex;
-        position: relative;
+        // position: relative;
         .tu-one {
           width: 25%;
           text-align: center;

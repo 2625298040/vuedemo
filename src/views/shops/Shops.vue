@@ -25,11 +25,23 @@
                   <i class="el-icon-more"></i>
                 </span>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item command="/home" icon="el-icon-house">首页</el-dropdown-item>
-                  <el-dropdown-item command="/keywords" icon="el-icon-search">分类搜索</el-dropdown-item>
-                  <el-dropdown-item command="/cart" icon="el-icon-shopping-cart-1">购物车</el-dropdown-item>
-                  <el-dropdown-item command="/profile" icon="el-icon-check">我的京东</el-dropdown-item>
-                  <el-dropdown-item command="/profile" icon="el-icon-notebook-1">浏览记录</el-dropdown-item>
+                  <el-dropdown-item command="/home" icon="el-icon-house"
+                    >首页</el-dropdown-item
+                  >
+                  <el-dropdown-item command="/keywords" icon="el-icon-search"
+                    >分类搜索</el-dropdown-item
+                  >
+                  <el-dropdown-item
+                    command="/cart"
+                    icon="el-icon-shopping-cart-1"
+                    >购物车</el-dropdown-item
+                  >
+                  <el-dropdown-item command="/profile" icon="el-icon-check"
+                    >我的京东</el-dropdown-item
+                  >
+                  <el-dropdown-item command="/profile" icon="el-icon-notebook-1"
+                    >浏览记录</el-dropdown-item
+                  >
                 </el-dropdown-menu>
               </el-dropdown>
             </el-col>
@@ -41,15 +53,29 @@
     <div class="about">
       <div class="title">
         <ul>
-          <input type="text" placeholder="搜商品" v-on:focus="toKeywords" />
+          <div class="search-box">
+            <input type="text" placeholder="搜商品" v-on:focus="toKeywords" />
+          </div>
+
           <li
-            :class="{'active':indexTap == index}"
-            v-for="(item,index) in lists"
+            :class="{ active: indexTap == index }"
+            v-for="(item, index) in lists"
             :key="index"
             @click="indexTap = index"
-          >{{item}}</li>
+          >
+            {{ item }}
+          </li>
         </ul>
-        <div v-if="indexTap == 0">范德萨范德萨</div>
+        <div v-if="indexTap == 0">
+          <ul>
+            <router-link tag="li" to="/page1">首页1</router-link>
+            <router-link tag="li" to="/page3">首页3</router-link>
+            <router-link tag="li" to="/page4">首页4</router-link>
+            <router-link tag="li" to="/page5">首页5</router-link>
+            <router-link tag="li" to="/page7">首页7</router-link>
+            <router-link tag="li" to="/page9">首页9</router-link>
+          </ul>
+        </div>
         <div v-if="indexTap == 1">范德萨范德萨</div>
       </div>
     </div>
@@ -90,6 +116,33 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.search-box {
+  display: inline-block;
+  width: 20%;
+  border: none;
+  border-radius: 15px;
+  height: 30px;
+  background: #f7f7f7;
+  font-size: 12px;
+  -webkit-box-align: center;
+  line-height: 30px;
+  padding-right: 10px;
+  box-sizing: border-box;
+  input {
+    border: none;
+    outline: 0;
+    background: 0 0;
+    font-size: 12px;
+    color: #232326;
+    padding-left: 30px;
+    box-sizing: border-box;
+    -webkit-box-flex: 1;
+    height: auto;
+    vertical-align: middle;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
 .el-input__inner {
   width: 50px;
 }
