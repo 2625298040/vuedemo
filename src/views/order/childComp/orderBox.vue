@@ -20,10 +20,15 @@
               :key="index"
               :src="path + '/goods/' + i"
             />
+            <div class="trade">
+              <p>{{ Trade }}</p>
+            </div>
           </div>
+
           <div class="rigthBox">
             查看更多
             <i class="el-icon-arrow-right"></i>
+            {{ updatetime | getTime() }}
           </div>
         </div>
         <p>
@@ -54,6 +59,8 @@ export default {
         this.allMoney += item.money_now * item.num * 1;
         this.allNum += item.num * 1;
         this.imgArr.push(item.img_cover);
+        this.Trade = item.goods_name;
+        this.updatetime = item.updatetime;
       });
       this.arr = res.data;
       console.log(this.arr);
@@ -67,6 +74,8 @@ export default {
   },
   data() {
     return {
+      updatetime: "",
+      Trade: "",
       allMoney: 0,
       allNum: 0,
       imgArr: [],
@@ -81,6 +90,32 @@ export default {
   filters: {
     fMoney(msg) {
       return "$ " + parseFloat(msg).toFixed(2);
+    },
+    getTime: function (value) {
+      let date = new Date(value),
+        Y = date.getFullYear(),
+        m = date.getMonth() + 1,
+        d = date.getDate(),
+        h = date.getHours(),
+        min = date.getMinutes(),
+        s = date.getSeconds();
+      if (m < 10) {
+        m = "0" + m;
+      }
+      if (d < 10) {
+        d = "0" + d;
+      }
+      if (h < 10) {
+        h = "0" + h;
+      }
+      if (min < 10) {
+        min = "0" + min;
+      }
+      if (s < 10) {
+        s = "0" + s;
+      }
+      let t = Y + "-" + m + "-" + d + " | " + h + ":" + min + ":" + s;
+      return t;
     },
   },
 };
@@ -109,10 +144,9 @@ dl {
     border-bottom: 1px solid #eee;
     .box {
       overflow: hidden;
-      line-height: 120px;
       .imgBox {
         display: flex;
-        width: 72%;
+        width: 100%;
         overflow: hidden;
         img {
           flex: 0;
@@ -120,6 +154,9 @@ dl {
           margin-left: 0;
           width: 30%;
           border-radius: 10px;
+        }
+        .trade {
+          margin-top: 30px;
         }
       }
     }

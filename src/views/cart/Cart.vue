@@ -35,12 +35,12 @@
 
       <div class="cart_address_box">
         <div class="cart_address">
-          <div class="address" @click="open('distribution')">
-            配送至:
-            {{ address | changeAddr }}
-            <!-- {{ addr | changeAddr }} -->
+          <div style="width: 80%; height: 100%">
+            <div class="address" @click="open('distribution')" v-show="dsp">
+              <p>配送至: {{ address | changeAddr }}</p>
+              <!-- {{ addr | changeAddr }} -->
+            </div>
           </div>
-
           <el-drawer
             title="配送至"
             direction="btt"
@@ -70,7 +70,8 @@
             </ul>
             <div v-else>省市县三级列表菜单</div>
           </el-drawer>
-          <span class="btn">编辑商品</span>
+          <span class="btn" @click="isshow">{{ msg }}</span>
+          <div></div>
         </div>
       </div>
       <div v-if="!$store.state.userInfo" class="shopcart_login_bar">
@@ -132,6 +133,8 @@ export default {
     return {
       localShopCart: [], //本地存储的购物车
       distribution: false,
+      dsp: true,
+      msg: "编辑商品",
     };
   },
   created() {
@@ -158,9 +161,6 @@ export default {
     if (this.$store.state.userInfo) {
       // this.getShopCart();
       this.$store.dispatch("getShopCart", this.$store.state.userInfo.id);
-      console.log(
-        this.$store.dispatch("getShopCart", this.$store.state.userInfo.id)
-      );
     } else {
       this.getLocalShopCart();
     }
@@ -216,6 +216,16 @@ export default {
     },
   },
   methods: {
+    isshow() {
+      this.$refs.cart_goods[0].isshow = !this.$refs.cart_goods[0].isshow;
+      console.log(this.$refs.cart_goods[0].isshow);
+      this.dsp = !this.dsp;
+      if (this.dsp) {
+        this.msg = "编辑商品";
+      } else {
+        this.msg = "完成";
+      }
+    },
     changeAddr(val) {
       //存到本地存储中 ， 存储的数据，不去存截取后的值，直接存原值
       this.addr = val;

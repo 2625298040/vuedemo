@@ -1,22 +1,27 @@
 <template>
   <div :id="divID">
     <!-- 放图片 -->
-    <div class="rotation" @touchstart="touchStart" @touchend="touchEnd" @touchmove="touchMove">
+    <div
+      class="rotation"
+      @touchstart="touchStart"
+      @touchend="touchEnd"
+      @touchmove="touchMove"
+    >
       <slot></slot>
     </div>
     <!-- 左右按钮 如果需要的时候，给插槽内放置左右按钮即可-->
-    <div class="icator" v-if="showIcator && slideCount>1">
+    <div class="icator" v-if="showIcator && slideCount > 1">
       <slot name="icator"></slot>
     </div>
     <!-- 放小圆点  索引指示器-->
-    <div class="indicator" v-if="showIndicator && slideCount>1">
+    <div class="indicator" v-if="showIndicator && slideCount > 1">
       <!-- 可以放置index索引小圆点图标，  也可以插入一个按钮，用于播放视频 -->
       <slot name="indicator">
         <div
-          v-for="(item,index) in slideCount"
+          v-for="(item, index) in slideCount"
           :key="index"
           class="round-item"
-          :class="{active:index === currentIndex - 1}"
+          :class="{ active: index === currentIndex - 1 }"
         ></div>
       </slot>
     </div>
@@ -235,17 +240,22 @@ export default {
   justify-content: center;
   width: 100%;
   /* background-color:black; */
-  bottom: 20px;
+  bottom: 10px;
 }
 .round-item {
-  width: 10px;
-  height: 10px;
-  border-radius: 5px;
   background: #fff;
   line-height: 10px;
   font-size: 10px;
   color: red;
   margin: 0 5px;
+  box-sizing: border-box;
+  border-radius: 7px;
+  height: 5px;
+  width: 10px;
+  background: hsla(0, 0%, 92.9%, 0.4);
+  margin: 0 2px;
+  display: inline-block;
+  opacity: 1;
 }
 .round-item.active {
   background-color: red;

@@ -44,26 +44,31 @@
       @pullingUp="loadMore"
     >
       <!-- 轮播图 -->
-      <div class="navbg">
-        <home-rotation :cbanners="banners"></home-rotation>
-        <hr />
-      </div>
+      <div class="navbg"></div>
+      <home-rotation :cbanners="banners"></home-rotation>
+      <hr />
+
       <!-- 功能视图 -->
       <home-feature
         :cfeature="feature"
         @cfeatureAll="toFeatureAll"
       ></home-feature>
       <hr />
-      <div>
+      <!-- 校园专区 -->
+      <div id="campus">
+        <img :src="path + '/routine/homexy.png'" width="100%" />
+      </div>
+
+      <!-- <div>
         <button style="width: 100%" @click="changeDirection">
           改变商品数据排列
         </button>
-      </div>
+      </div> -->
       <div class="tabContent">
-        <div class="tabTitle">
+        <!-- <div class="tabTitle">
           <button @click="tabClick('recommend')">recommend</button>
           <button @click="tabClick('news')">news</button>
-        </div>
+        </div> -->
         <goods-list
           :cgoods="showGoodsList"
           :cpath="path"
@@ -71,53 +76,7 @@
           :bus="bus"
         ></goods-list>
       </div>
-      <div class="home-footer">
-        <ul class="home-sever">
-          <li>
-            <a v-if="!$store.state.userInfo" @click="tologin('/login')">登陆</a>
-            <a v-else>{{ this.$store.state.userInfo.name }}</a>
-          </li>
-          <li>
-            <a v-if="!$store.state.userInfo" @click="tologin('/login')">注册</a>
-            <a v-else @click="signOut">退出</a>
-          </li>
-          <li>
-            <a href>客户服务</a>
-          </li>
-          <li>
-            <a @click="toTop">返回顶部</a>
-          </li>
-        </ul>
-        <ul class="common-edition">
-          <li>
-            <a href>
-              <img
-                src="//m.360buyimg.com/mobilecms/jfs/t16423/186/2517573622/5186/75a541f7/5ab1c0deN947bdcba.png"
-                alt
-              />
-            </a>
-          </li>
-          <li>
-            <a href>
-              <img
-                src="//m.360buyimg.com/mobilecms/jfs/t18550/294/898388074/6574/3a8c5413/5ab0b8e9Ne9c48331.png"
-                alt
-              />
-            </a>
-          </li>
-          <li>
-            <a href>
-              <img
-                src="//m.360buyimg.com/mobilecms/jfs/t14581/218/2689195961/4696/203b872a/5ab1c0f2N51c3f1bb.png"
-                alt
-              />
-            </a>
-          </li>
-        </ul>
-        <div class="home-copyright">
-          Copyright © 2004-2019 京东JD.com 版权所有
-        </div>
-      </div>
+      <home-footer @ctoTop="toTop"></home-footer>
     </scroll>
     <a class="toTop" @click="toTop" v-if="isShowBackTop"></a>
   </div>
@@ -133,6 +92,7 @@ import GoodsList from "components/contents/goods/GoodsList";
 //引入当前组件的子组件
 import HomeRotation from "./childComp/HomeRotation";
 import HomeFeature from "./childComp/HomeFeature";
+import HomeFooter from "./childComp/HomeFooter";
 // import {getHomeBanner} from "network/home"
 import { debounce } from "common/utils";
 //引入其他文件
@@ -163,7 +123,7 @@ export default {
         },
       },
       tabCurrentType: "recommend", //当前被选中tab按钮的类型
-      parentDirection: true, // goods展示的时候是否切换横向/纵向展示
+      parentDirection: false, // goods展示的时候是否切换横向/纵向展示
       isLoadmore: true, //是否加载更多
       bus: "homeImageLoad",
       saveY: 0, //保存滚动条y的值
@@ -187,6 +147,7 @@ export default {
     GoodsList,
     HomeRotation,
     HomeFeature,
+    HomeFooter,
   },
   created() {
     //vue实例在创建时的钩子函数
@@ -221,17 +182,6 @@ export default {
     },
   },
   methods: {
-    signOut() {
-      this.$store.state.userInfo = null;
-      this.$store.state.shopCart = null;
-      this.$store.state.shopCartLength = 0;
-      let path = window.location.origin + "/jd";
-      localStorage.setItem(path, "");
-      if (this.$store.state.userInfo == null) {
-        this.$router.push("/home");
-        window.location.reload();
-      }
-    },
     //取banner的数据
     getHomeBanner() {
       getHomeBanner().then((res) => {
@@ -334,78 +284,20 @@ export default {
 };
 </script>
 <style lang='less' scoped>
-.home-footer {
-  padding-bottom: 10px;
-  width: 100%;
+#HomeFeature {
   height: 150px;
-  margin: 0 auto;
-  background-color: #fff;
-  .home-sever {
-    height: 50px;
-    width: 100%;
-    box-sizing: border-box;
-    border-bottom: 1px solid #e5e5e5;
-    border-top: 1px solid #e5e5e5;
-    padding: 4.26667vw 5.33333vw;
-    li {
-      float: left;
-      text-align: center;
-      width: 25%;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      padding: 0 5px;
-      box-sizing: border-box;
-      a {
-        position: relative;
-        display: block;
-        box-sizing: border-box;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        color: #848689;
-        font-size: 3.73333vw;
-        padding-top: 3px;
-        text-decoration: none;
-      }
-      a:after {
-        content: "";
-        display: inline-block;
-        height: 70%;
-        width: 1px;
-        background-color: #d7d7d7;
-        position: absolute;
-        right: 0;
-        top: 15%;
-      }
-    }
-  }
-  .common-edition {
-    height: 50px;
-    border-bottom: 1px solid #e5e5e5;
-    padding: 1vw 2vw;
-    li {
-      float: left;
-      text-align: center;
-      width: 33%;
-      a {
-        display: block;
-        width: 100%;
-        position: relative;
-        img {
-          width: 7vh;
-          vertical-align: middle;
-        }
-      }
-    }
-  }
-  .home-copyright {
-    text-align: center;
-    color: #848689;
-    font-size: 1vh;
-    padding: 2vw 0;
-  }
 }
+.navbg {
+  background-image: linear-gradient(0deg, #f1503b, #c82519 50%);
+  position: absolute;
+  top: 0;
+  left: -25%;
+  height: 7.25rem;
+  width: 150%;
+  border-bottom-left-radius: 100%;
+  border-bottom-right-radius: 100%;
+}
+
 .category {
   margin: 14px 0 0 15px;
   width: 20px;
@@ -419,6 +311,7 @@ export default {
   /* padding-top: 44px; */
   height: 100vh;
   position: relative;
+  background-color: #f6f6f6;
 }
 .home-nav-bar {
   background-image: url(https://m.360buyimg.com/mobilecms/s1125x939_jfs/t1/130443/4/9312/6569/5f560374E6edf9c74/aac332227b6b2a16.png);

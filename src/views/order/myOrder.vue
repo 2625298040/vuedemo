@@ -1,5 +1,5 @@
 <template>
-  <div id="allOrder">
+  <div id="myOrder">
     <scroll
       class="ao-content"
       :probeType="3"
@@ -42,6 +42,7 @@
           </el-dropdown>
         </div>
       </nav-bar>
+
       <div class="inputBox">
         <div class="leftBox">
           <el-input
@@ -58,15 +59,19 @@
       </div>
 
       <div class="bigBox">
-        <el-tabs>
-          <el-tab-pane label="全部" name="all">
+        <el-tabs v-model="activeName">
+          <el-tab-pane
+            label="全部"
+            name="all"
+            @click="this.jumpPage('/myOrder/all')"
+          >
             <order-box
               v-for="(i, index) in allState"
               :key="index"
               :data="i.id"
             ></order-box>
           </el-tab-pane>
-          <el-tab-pane name="one">
+          <el-tab-pane name="one" @click="this.jumpPage('/myOrder/one')">
             <span slot="label">
               待付款
               <el-badge
@@ -82,7 +87,11 @@
               :data="i.id"
             ></order-box>
           </el-tab-pane>
-          <el-tab-pane label="待收货" name="two">
+          <el-tab-pane
+            label="待收货"
+            name="two"
+            @click="this.jumpPage('/myOrder/two')"
+          >
             <order-box
               v-for="(i, index) in twoState"
               :key="index"
@@ -106,16 +115,17 @@
 import navBar from "components/common/navbar/NavBar";
 import Scroll from "components/contents/scroll/Scroll";
 import orderBox from "./childComp/orderBox";
+
 import { getOrder } from "network/order";
 import { haveData } from "common/utils";
 export default {
-  name: "AllOrder",
+  name: "myOrder",
   created() {
     console.log(this.$store.state.userInfo);
     if (this.userId) {
-      this.getAllOrder(this.userId, 1);
-      this.getAllOrder(this.userId, 2);
-      this.getAllOrder(this.userId, 3);
+      this.getmyOrder(this.userId, 1);
+      this.getmyOrder(this.userId, 2);
+      this.getmyOrder(this.userId, 3);
     }
   },
   data() {
@@ -130,9 +140,9 @@ export default {
   watch: {
     userId(newVal) {
       console.log(newVal);
-      this.getAllOrder(newVal, 1);
-      this.getAllOrder(newVal, 2);
-      this.getAllOrder(newVal, 3);
+      this.getmyOrder(newVal, 1);
+      this.getmyOrder(newVal, 2);
+      this.getmyOrder(newVal, 3);
     },
   },
   components: {
@@ -141,7 +151,7 @@ export default {
     orderBox,
   },
   methods: {
-    getAllOrder(a, b) {
+    getmyOrder(a, b) {
       class obj {
         constructor(user_id, state) {
           this.user_id = user_id;
@@ -178,11 +188,17 @@ export default {
     userId() {
       return this.$store.state.userInfo.id;
     },
+    activeName: {
+      get: function () {
+        return this.$route.params.str;
+      },
+      set: function () {},
+    },
   },
 };
 </script>
 <style lang='less' scoped>
-#allOrder {
+#myOrder {
   height: 100vh;
   overflow: hidden;
   position: relative;

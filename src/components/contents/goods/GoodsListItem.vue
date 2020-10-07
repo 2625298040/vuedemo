@@ -1,18 +1,18 @@
 <template>
   <div
     :class="{
-      GoodsListItem:true, 
-      transverse:isDirection,
-      column:!isDirection
-      }"
+      GoodsListItem: true,
+      transverse: isDirection,
+      column: !isDirection,
+    }"
   >
     <!-- @click="toDetails(citem)" -->
     <!-- <a href="javascript:;"> -->
-    <router-link tag="a" :to="'/details/'+citem.id">
-      <img :src="itemPath+'/goods/'+ citem.img_cover " @load="loadMore" />
-      <span class="similar_text">{{citem.name}}</span>
-      <span style="float:left">{{citem.money_now}}</span>
-      <span style="float:right" @click="/details/">看相似</span>
+    <router-link tag="a" :to="'/details/' + citem.id">
+      <img :src="itemPath + '/goods/' + citem.img_cover" @load="loadMore" />
+      <span class="similar_text">{{ citem.name }}</span>
+      <span style="float: left">{{ citem.money_now }}</span>
+      <span style="float: right" @click="/details/">看相似</span>
     </router-link>
     <!-- </a> -->
   </div>

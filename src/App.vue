@@ -27,16 +27,19 @@ export default {
     requestIp().then((res) => {
       //把地址获取拿到了app页面，因为其他页面加载也都是加载到app页面。
       //如果没有用户登录，则配送地址为获取的地址
+      console.log(res);
       if (!res) return;
       if (!this.user) {
         this.$store.state.ShoppingAddress = eval(
           "(" + res.slice(res.indexOf("=") + 1, res.length - 1) + ")"
         ).cname;
       }
+      console.log(this.$store.state.ShoppingAddress);
       //默认城市为获取的地址
       this.$store.state.city = eval(
         "(" + res.slice(res.indexOf("=") + 1, res.length - 1) + ")"
       ).cname;
+      console.log(this.$store.state.city);
     });
     // this.$store.commit('aaa')
   },

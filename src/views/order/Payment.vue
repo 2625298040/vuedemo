@@ -3,7 +3,11 @@
     <navbar>
       <div slot="left">
         <!-- <i></i> -->
-        <el-button type="text" class="el-icon-arrow-left" @click="dialogVisible = true"></el-button>
+        <el-button
+          type="text"
+          class="el-icon-arrow-left"
+          @click="dialogVisible = true"
+        ></el-button>
 
         <el-dialog
           title="确认要离开收银台？"
@@ -15,7 +19,7 @@
           <span>你的订单将在23小时59分内未支付将被取消，请尽快完成支付</span>
           <span slot="footer" class="dialog-footer">
             <el-button @click="dialogVisible = false">继续支付</el-button>
-            <el-button type="primary" @click="paygo">确认离开</el-button>
+            <el-button type="primary" @click="leave">确认离开</el-button>
           </span>
         </el-dialog>
       </div>
@@ -37,81 +41,110 @@
       </div>
     </navbar>
     <div
-      style="border-top:1px solid #ddd;line-height:50px;"
-      v-for="(item,index) in goods"
+      style="border-top: 1px solid #ddd; line-height: 50px"
+      v-for="(item, index) in goods"
       :key="index"
-    >{{item.money_now}}</div>
+    >
+      {{ item.money_now }}
+    </div>
     <scroll ref="payscroll" class="payscroll">
-      <div class="p" style="border-top-left-radius:10px;border-top-right-radius:10px;">
+      <div
+        class="p"
+        style="border-top-left-radius: 10px; border-top-right-radius: 10px"
+      >
         <div></div>
       </div>
-      <div style="text-align:left;" class="catepay">
+      <div style="text-align: left" class="catepay">
         <div>
           <img
             src="https://cdnpay.360buyimg.com/image/pay/home-pay-icon-39d557c44d7afdb354da160af4ed0ff1.png"
-            style="width: 24px;height: 24px;margin-right:8px;"
+            style="width: 24px; height: 24px; margin-right: 8px"
             alt
           />
-          <span style="flex:5;">打白条</span>
+          <span style="flex: 5">打白条</span>
           <el-radio v-model="radio" label="开通白条并支付"></el-radio>
         </div>
         <div>
           <img
             src="https://storage.360buyimg.com/payment-assets/sdk/icon/BAITIAO_2.0.png"
-            style="width: 24px;
-    height: 24px;margin-right:8px;"
+            style="width: 24px; height: 24px; margin-right: 8px"
             alt
           />
-          <span style="flex:5;">使用新卡支付</span>
+          <span style="flex: 5">使用新卡支付</span>
           <el-radio v-model="radio" label="使用新卡支付"></el-radio>
         </div>
 
         <div>
           <img
             src="https://storage.360buyimg.com/payment-assets/sdk/bank/BANKCARD1.png"
-            style="width: 24px;
-    height: 24px;margin-right:8px;"
+            style="width: 24px; height: 24px; margin-right: 8px"
             alt
           />
           <div
-            style="flex:5;display:flex;margin-right:-18px;flex-wrap:wrap;border-bottom:1px solid #ddd;"
+            style="
+              flex: 5;
+              display: flex;
+              margin-right: -18px;
+              flex-wrap: wrap;
+              border-bottom: 1px solid #ddd;
+            "
           >
-            <span style="flex:5">
+            <span style="flex: 5">
               <div>京东小金库</div>
-              <div style="padding-bottom:8px;">请设置数字支付密码后使用</div>
+              <div style="padding-bottom: 8px">请设置数字支付密码后使用</div>
             </span>
-            <el-radio v-model="radio" label style="margin-right:18px;"></el-radio>
+            <el-radio
+              v-model="radio"
+              label
+              style="margin-right: 18px"
+            ></el-radio>
           </div>
         </div>
 
         <div>
-          <div style="flex:1"></div>
-          <span style="flex:5">全部付款方式</span>
+          <div style="flex: 1"></div>
+          <span style="flex: 5">全部付款方式</span>
           <el-button type="text" @click="dialogVisible1 = true">
             查看
             <i class="el-icon-arrow-right"></i>
           </el-button>
-          <el-dialog title="付款方式" :visible.sync="dialogVisible1" width="100%">
+          <el-dialog
+            title="付款方式"
+            :visible.sync="dialogVisible1"
+            width="100%"
+          >
             <div>
               <div>
-                <span style="flex:5;">打白条</span>
+                <span style="flex: 5">打白条</span>
                 <el-radio v-model="radio" label="开通白条并支付"></el-radio>
               </div>
 
               <div>
-                <span style="flex:5;">使用新卡支付</span>
+                <span style="flex: 5">使用新卡支付</span>
                 <el-radio v-model="radio" label="使用新卡支付"></el-radio>
               </div>
 
               <div>
                 <div
-                  style="flex:5;display:flex;margin-right:-18px;flex-wrap:wrap;border-bottom:1px solid #ddd;"
+                  style="
+                    flex: 5;
+                    display: flex;
+                    margin-right: -18px;
+                    flex-wrap: wrap;
+                    border-bottom: 1px solid #ddd;
+                  "
                 >
-                  <span style="flex:5">
+                  <span style="flex: 5">
                     <div>京东小金库</div>
-                    <div style="padding-bottom:8px;">请设置数字支付密码后使用</div>
+                    <div style="padding-bottom: 8px">
+                      请设置数字支付密码后使用
+                    </div>
                   </span>
-                  <el-radio v-model="radio" label style="margin-right:18px;"></el-radio>
+                  <el-radio
+                    v-model="radio"
+                    label
+                    style="margin-right: 18px"
+                  ></el-radio>
                 </div>
               </div>
             </div>
@@ -119,9 +152,11 @@
         </div>
 
         <div>
-          <span style="flex:5">
+          <span style="flex: 5">
             <div>微信支付方式</div>
-            <div style="padding-bottom:8px;">仅安装微信6.0.2及以上版本客户端使用</div>
+            <div style="padding-bottom: 8px">
+              仅安装微信6.0.2及以上版本客户端使用
+            </div>
           </span>
           <el-radio v-model="radio" label="微信支付"></el-radio>
           <!-- </div> -->
@@ -132,11 +167,12 @@
       <el-button
         type="danger"
         round
-        style="width:90%;margin-top:10px;"
+        style="width: 90%; margin-top: 10px"
         @click="paygo"
-        v-for="(item,index) in goods"
+        v-for="(item, index) in goods"
         :key="index"
-      >{{radio}}￥{{item.money_now}}</el-button>
+        >{{ radio }}￥{{ item.money_now }}</el-button
+      >
     </div>
   </div>
 </template>
@@ -144,7 +180,7 @@
 <script>
 import navbar from "components/common/navbar/NavBar";
 import scroll from "components/contents/scroll/Scroll";
-import { getOrderbyOrderId } from "network/order";
+import { getOrderbyOrderId, getOrderState } from "network/order";
 export default {
   name: "pay",
   data() {
@@ -184,11 +220,24 @@ export default {
         this.goods = res.data;
       });
     },
+    leave() {
+      getOrderState({ order_id: this.order_id, state: 1 }).then((res) => {
+        console.log(res);
+      });
+      this.$router.push("/myOrder/one");
+    },
     paygo() {
       this.dialogVisible = false;
-      // this.$router.push("/zf");
-      this.$router.push("/profile");
-      // alert("待支付");
+      // // this.$router.push("/zf");
+      // this.$router.push("/myorder");
+      // // alert("待支付");
+      getOrderState({
+        order_id: this.order_id,
+        state: 2,
+      }).then((res) => {
+        console.log(res);
+      });
+      this.$router.push("/myOrder/two");
     },
     pushrouper(path) {
       this.$router.push(path);

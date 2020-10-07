@@ -2,7 +2,7 @@
   <div>
     <scroll id="ProfileScroll">
       <nav-bar class="cartNavBar" ref="cartNavBar">
-        <div slot="left" class="left" v-on:click="$router.go(-1)">
+        <div slot="left" class="left">
           <i class="el-icon-arrow-left"></i>
         </div>
         <div slot="center">
@@ -17,15 +17,26 @@
               <el-dropdown-item command="/home">首页</el-dropdown-item>
               <el-dropdown-item command="/keywords">分类搜索</el-dropdown-item>
               <el-dropdown-item command="/profile">我的京东</el-dropdown-item>
-              <el-dropdown-item command="/profile" disabled>浏览记录</el-dropdown-item>
-              <el-dropdown-item command="/profile" divided>我的关注</el-dropdown-item>
-              <el-dropdown-item command="/profile" divided>分享</el-dropdown-item>
+              <el-dropdown-item command="/profile" disabled
+                >浏览记录</el-dropdown-item
+              >
+              <el-dropdown-item command="/profile" divided
+                >我的关注</el-dropdown-item
+              >
+              <el-dropdown-item command="/profile" divided
+                >分享</el-dropdown-item
+              >
             </el-dropdown-menu>
           </el-dropdown>
         </div>
       </nav-bar>
 
-      <div v-if="!$store.state.userInfo" @click="$store.commit('ROUTERTO','/login')">登录</div>
+      <div
+        v-if="!$store.state.userInfo"
+        @click="$store.commit('ROUTERTO', '/login')"
+      >
+        登录
+      </div>
 
       <div v-else @click="signOut">退出</div>
 
@@ -44,9 +55,9 @@
 
           <div class="user-right">
             <div class="ur-top">
-              <span v-if="userInfo">{{userInfo.name}}</span>
+              <span v-if="userInfo">{{ userInfo.name }}</span>
             </div>
-            <div class="ur-m" v-if="userInfo">用户名:{{userInfo.name}}</div>
+            <div class="ur-m" v-if="userInfo">用户名:{{ userInfo.name }}</div>
           </div>
 
           <div class="user-bottom">
@@ -82,19 +93,21 @@
       <div class="content-middle">
         <div class="middle-one">
           <div class="middle-top-tu">
-            <div class="tu-one" @click="tomyOrder">
+            <div class="tu-one" @click="jumpPage('/myOrder/one')">
               <img src="./profile/1.png" alt />
               <br />代付款
             </div>
-            <div class="tu-one">
+            <div class="tu-one" @click="jumpPage1('/myOrder/two')">
               <img src="./profile/2.png" alt />
               <br />待收货
             </div>
             <div class="tu-one">
-              <img src="./profile/3.png" alt />
-              <br />退换/售后
+              <a href="">
+                <img src="./profile/3.png" alt />
+                <br />退换/售后
+              </a>
             </div>
-            <div class="tu-one">
+            <div class="tu-one" @click="jumpPage2('/myOrder/all')">
               <img src="./profile/4.png" alt />
               <br />全部订单
             </div>
@@ -179,9 +192,9 @@ export default {
     return {};
   },
   created() {
-    // this.$store.state.userInfo=null;
     if (!this.$store.state.userInfo) {
-      this.$store.commit("AUTO_CODE");
+      console.log(this.$store.commit("autocode"));
+      // this.$store.dispatch("autocode", {});
     }
 
     console.log(this.$store.state.userInfo);
@@ -197,6 +210,15 @@ export default {
     Scroll,
   },
   methods: {
+    jumpPage() {
+      this.$router.push("/myOrder/one");
+    },
+    jumpPage1() {
+      this.$router.push("/myOrder/two");
+    },
+    jumpPage2() {
+      this.$router.push("/myOrder/all");
+    },
     pushRouter(path) {
       this.$router.push(path);
     },
@@ -206,9 +228,7 @@ export default {
       // }else{
       //   this.$router.push("/login")
       // }
-
       console.log(this.$store.state.userInfo);
-
       if (this.$store.state.userInfo != null) {
         this.$router.push("/myorder");
       } else if (this.$store.state.userInfo == null) {

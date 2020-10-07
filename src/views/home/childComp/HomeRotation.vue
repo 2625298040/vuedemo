@@ -1,8 +1,8 @@
 <template>
   <rotation :interval="1000" :showIndicator="true" divID="bannerBox">
-    <rotation-item v-for="(item,index) in cbanners" :key="index">
+    <rotation-item v-for="(item, index) in cbanners" :key="index">
       <a :href="item.href">
-        <img :src="path+bannerSrc+item.crs" />
+        <img :src="path + bannerSrc + item.crs" />
       </a>
     </rotation-item>
   </rotation>
@@ -35,6 +35,9 @@ export default {
 </script>
 
 <style scoped>
+#bannerBox {
+  height: 200px;
+}
 img {
   width: 93%;
   border-radius: 10px;

@@ -4,16 +4,16 @@
       <label for="allCheck" v-on:click="$emit('checkall')">
         <input type="checkbox" id="allCheck" />全选
       </label>
-      <div class="allMoney">合计:{{totalPayment | changePrice("￥")}}</div>
+      <div class="allMoney">合计:{{ totalPayment | changePrice("￥") }}</div>
     </div>
     <div class="btn">
       <input
         type="submit"
         class="settlement"
         v-on:click="$emit('confirm')"
-        :value="'去结算('+totalNum+')'"
+        :value="'去结算(' + totalNum + ')'"
         :disabled="totalNum == 0"
-        :class="{disabled:totalNum == 0}"
+        :class="{ disabled: totalNum == 0 }"
       />
     </div>
   </div>

@@ -43,6 +43,13 @@ export function getOrderGoods(id) {
 }
 
 
+export function getOrderState(data) {
+    return requestPost({
+        url: "/vuedemo/update_order_state",
+        data
+    })
+}
+
 
 // 获取该用户的所有订单
 export function getOrder(data) {
@@ -53,10 +60,4 @@ export function getOrder(data) {
     })
 }
 
-export function upDateUserInfo(data) {
-    return requestPost({
-        url: "/vuedemo/get_shops",
-        // 两个参数 一个user_id 一个state订单状态 1---待支付 2---支付成功 3---支付失败
-        data
-    })
-}
+

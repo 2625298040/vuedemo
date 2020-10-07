@@ -34,26 +34,26 @@
       }
     }
   }
-  .warning{
+  .warning {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    .dialog{
-      position:absolute;
-      top:30%;
-      left:10%;
-      right:10%;
-      bottom:40%;
+    .dialog {
+      position: absolute;
+      top: 30%;
+      left: 10%;
+      right: 10%;
+      bottom: 40%;
       background-color: #fff;
       border-radius: 10px;
       overflow: hidden;
       font-size: 16px;
-      .content{
-        margin-top:40px;
-        padding:0 30px;
+      .content {
+        margin-top: 40px;
+        padding: 0 30px;
         text-align: left;
       }
       .footer {
@@ -93,19 +93,19 @@
       overflow: hidden;
       font-size: 16px;
       .content {
-        height:calc(100% - 50px);
+        height: calc(100% - 50px);
         padding: 0 12px;
         .header {
           line-height: 50px;
         }
         .dialogScroll {
-          height:calc(100% - 120px);
+          height: calc(100% - 120px);
           text-align: left;
           line-height: 24px;
           overflow: hidden;
         }
         .agreement {
-          height:70px;
+          height: 70px;
         }
       }
       .footer {
@@ -139,18 +139,22 @@
     </nav-bar>
     <div>
       <div class="inputBox">
-        <router-link to='/area_code' tag="span">
-          {{area_code}}
+        <router-link to="/area_code" tag="span">
+          {{ area_code }}
           <span class="el-icon-arrow-down"></span>
         </router-link>
-        <el-input placeholder="请输入手机号" v-model="phone" clearable></el-input>
+        <el-input
+          placeholder="请输入手机号"
+          v-model="phone"
+          clearable
+        ></el-input>
       </div>
       <input
         type="button"
         @click="next"
         :disabled="regTel"
         value="下一步"
-        :class="{next:true,disabled:regTel}"
+        :class="{ next: true, disabled: regTel }"
       />
     </div>
     <!-- 页面初始模态框 -->
@@ -161,13 +165,16 @@
           <div class="agreement">
             <p>
               点击同意即表示您已阅读并同意
-              <a href="https:/in.m.jd.com/help/app/register_info.html">《京东用户注册协议》</a>
+              <a href="https:/in.m.jd.com/help/app/register_info.html"
+                >《京东用户注册协议》</a
+              >
               与
               <a href="https://in.m.jd.com/help/app/private_policy.html">
-                《
-                京东隐私策》
-              </a>并将您的订单信息共享给为完成此订单所必须的第三方合作方。关于
-              <a href="https://in.m.jd.com/help/app/order_sharing_info.html">《订单共享与安全》</a>
+                《 京东隐私策》 </a
+              >并将您的订单信息共享给为完成此订单所必须的第三方合作方。关于
+              <a href="https://in.m.jd.com/help/app/order_sharing_info.html"
+                >《订单共享与安全》</a
+              >
             </p>
           </div>
         </div>
@@ -183,7 +190,7 @@
       <div class="dialog">
         <div class="content">
           <p>我们将发送短信/语音验证码至:</p>
-          <p>{{phone}}</p>
+          <p>{{ phone }}</p>
         </div>
         <div class="footer">
           <button class="cancel" @click="warningOk">不同意</button>
@@ -196,7 +203,7 @@
 
 <script>
 import NavBar from "components/common/navbar/NavBar";
-import { regPhone} from "network/user";
+import { regPhone } from "network/user";
 export default {
   name: "",
   data() {
@@ -205,7 +212,7 @@ export default {
       phone_area_code: null, //国际区号
       regTel: true,
       // area_code:100,
-      warning:false,  //手机号可以注册时，弹出框显示      
+      warning: false, //手机号可以注册时，弹出框显示
     };
   },
   components: {
@@ -213,12 +220,12 @@ export default {
     NavBar,
   },
   computed: {
-    area_code(){
-      return this.$store.state.area_code
+    area_code() {
+      return this.$store.state.area_code;
     },
-    show(){
-      return this.$store.state.registreDialogShow
-    }
+    show() {
+      return this.$store.state.registreDialogShow;
+    },
   },
   watch: {
     //监听
@@ -256,8 +263,8 @@ export default {
         // this.$router.push("/shortMsg/" + JSON.stringify(data));
       });
     },
-    warningOk(val){
-      if(val == 'ok'){
+    warningOk(val) {
+      if (val == "ok") {
         let data = {};
         data.areacode = this.area_code;
         data.telphone = this.phone;
@@ -275,13 +282,13 @@ export default {
       this.$router.go(-1);
     },
   },
-  beforeRouteLeave (to, from, next) {
+  beforeRouteLeave(to, from, next) {
     // ...
     console.log(to.path);
     //离开页面的时候，需要把 registreDialogShow 重新赋值为true 下次打开页面的时候，协议显示
-    this.$store.state.registreDialogShow = true    
-    if(to.path == '/area_code') this.$store.state.areacodeHistory = from.path
-    next()
+    this.$store.state.registreDialogShow = true;
+    if (to.path == "/area_code") this.$store.state.areacodeHistory = from.path;
+    next();
   },
   filters: {
     regPhone(val) {

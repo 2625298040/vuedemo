@@ -20,7 +20,7 @@
           <input
             type="checkbox"
             :checked="obj.ischeck == 1"
-            v-on:click="checkObj(index)"
+            v-on:click="checkObj(index, obj.num, 'a')"
           />
         </div>
         <div class="shop" v-on:click="toDetails('/details/' + obj.goods_id)">
@@ -45,7 +45,7 @@
 
             <p class="price">价格：{{ obj.money_now }}</p>
             <div class="num">
-              <button v-if="obj.num > 0" v-on:click.stop="num(index, '-')">
+              <button v-on:click.stop="num(index, '-')" :disabled="jian">
                 -
               </button>
               <input
@@ -55,6 +55,10 @@
               />
               <button v-on:click.stop="num(index, '+')">+</button>
             </div>
+            <p class="delegg" v-if="isshow">
+              <span>移入关注 |</span>
+              <span @click.stop="cartDel($event)">删除</span>
+            </p>
             <br />
           </div>
         </div>
@@ -77,6 +81,8 @@ export default {
   data() {
     return {
       ischeck: true,
+      jian: false,
+      isshow: false,
     };
   },
   mounted() {
@@ -98,6 +104,15 @@ export default {
     //组件
   },
   methods: {
+    cartDel(e) {
+      if (confirm("确认要删除此商品?")) {
+        console.log("删除");
+        // $(e.currentTarget.parentElement.parentElement.parentElement).remove();
+        e.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.remove();
+      } else {
+        console.log("失败");
+      }
+    },
     toDetails(path) {
       this.$router.push(path);
     },
@@ -106,22 +121,41 @@ export default {
     },
     num(index, operation) {
       let e = e || event;
+      console.log(e);
+      let box = this.$refs.shop_cart_details;
+      let btnAll = box.querySelectorAll(".radio input[type=checkbox]");
+      console.log(index);
+      this.goods[index].ischeck = "1";
+      let temp = 1;
       if (operation == "-") {
         this.goods[index].num -= 1;
         //   //获取下一个兄弟元素   然后改变数值
         e.target.nextElementSibling.value =
           e.target.nextElementSibling.value * 1 - 1;
-        this.$store.state.totalNum -= 1 * 1;
-        this.$store.state.totalPayment -= this.goods[index].money_now * 1;
+        // this.$store.state.totalNum -= 1 * 1;
+        // this.$store.state.totalPayment -= this.goods[index].money_now * 1;
+        // console.log(this.$store.state.totalPayment);
+        // console.log(e.target.nextElementSibling.value);
+        if (this.goods[index].num <= 1) {
+          this.jian = true;
+        }
       }
       if (operation == "+") {
         this.goods[index].num += 1;
         //   //获取上一个兄弟元素
         e.target.previousElementSibling.value =
           e.target.previousElementSibling.value * 1 + 1;
-        this.$store.state.totalNum += 1 * 1;
-        this.$store.state.totalPayment += this.goods[index].money_now * 1;
+        // this.$store.state.totalNum =
+        //   this.$store.state.totalNum == 0
+        //     ? e.target.previousElementSibling.value
+        //     : this.$store.state.totalNum * 1 + 1;
+        // console.log(this.$store.state.totalNum);
+        // this.$store.state.totalPayment += this.goods[index].money_now * 1;
+        if (e.target.previousElementSibling.value >= 1) {
+          this.jian = false;
+        }
       }
+      // this.goods[index].ischeck = "1";
       if (operation == "replace") {
         console.log(this.$store.state.shopCart);
         let num = 0,
@@ -143,18 +177,35 @@ export default {
         this.$store.state.totalPayment = money;
       }
       // console.log(this.goods[index]);
-      console.log(this.$store.state.shopCart);
+      if (!btnAll[index].checked) {
+        temp = this.goods[index].num;
+        btnAll[index].checked = true;
+        operation = "+";
+      }
+      this.checkObj(index, temp, operation);
     },
-    checkObj(index) {
+    checkObj(index, num, tempA) {
       let e = e || event;
       let temp = 1;
       if (!e.target.checked) {
         temp = -1;
       }
-      this.$store.state.totalPayment +=
-        this.goods[index].money_now * this.goods[index].num * temp;
-      this.$store.state.totalNum += this.goods[index].num * temp;
-      this.goods[index].ischeck = Number(e.target.checked).toString();
+      if (tempA == "a") {
+        //商品未选中
+        // alert("a");
+        this.$store.state.totalPayment +=
+          this.goods[index].money_now * num * temp;
+        this.$store.state.totalNum += num * temp;
+        this.goods[index].ischeck = Number(e.target.checked).toString();
+      } else {
+        // 商品加减
+        // alert("b");
+        tempA == "+" ? (temp = 1) : (temp = -1);
+        this.$store.state.totalPayment +=
+          this.goods[index].money_now * num * temp;
+        this.$store.state.totalNum += num * temp;
+      }
+
       this.isShopCheckAll();
     },
     //判断全选是否被选中
@@ -188,6 +239,7 @@ export default {
       if (e.target.checked) {
         temp = 1;
       }
+      console.log(e.target.checked);
       for (let i = 0; i < btnAll.length; i++) {
         //如果当前商品复选框的checked 为true  并且 店铺复选框也为 ture，则跳过当前循环。执行下一次循环
         // 因为如果当前商品是选中的状态。那么支付总价是不需要增加价钱的，所以直接跳过当前循环的后续代码执行
@@ -286,6 +338,7 @@ export default {
           }
         }
         .right {
+          height: 200px;
           line-height: @line-heigh;
           padding: 0 15px;
           flex: 7;

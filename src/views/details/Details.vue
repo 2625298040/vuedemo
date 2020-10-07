@@ -498,6 +498,7 @@ export default {
     this.getGoods(this.detailsId);
     this.getAddr();
     this.lookLocalStorage();
+    console.log(this.detailsId);
   },
   watch: {},
   mounted() {

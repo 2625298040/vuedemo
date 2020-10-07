@@ -38,7 +38,7 @@ const routes = [
   {
     path: "/category",//分类
     mata: {
-      title: "首页"
+      title: "分类"
     },
     component: Category
   },
@@ -162,7 +162,7 @@ const routes = [
     component: Order
   },
   {//我的订单
-    path: '/myOrder', //暂时直接传递商品数据
+    path: '/myOrder/:str', //暂时直接传递商品数据
     meta: {
       title: "订单页面"
     },
@@ -229,7 +229,6 @@ routers.beforeEach((to, from, next) => {
       store.state.areacodeHistory = from.path
     }
   }
-
 
   next();
 })

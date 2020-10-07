@@ -53,7 +53,7 @@ export default {
         }
         state.shopCart[item.shop_name].push(a)
         state.shopCartHistory[item.shop_name].push(b)
-
+        console.log(state.totalNum);
         //得到选中的商品的总价
         if (item.ischeck == '1') {
           state.totalPayment += item.money_now * item.num
@@ -65,6 +65,7 @@ export default {
           //   state.paymentGoods[item.shop_name]=[item];
           // } 
         }
+
         //获取所有商品的总价
         state.ShopCartMoneyAll += item.money_now * item.num
         state.ShopCartGoodsNum += item.num * 1

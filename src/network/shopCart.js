@@ -22,6 +22,18 @@ export function UpdataShopCart(data) {
         // }
     })
 }
+// // 获取该用户的所有订单
+// export function delete_shopcart(data) {
+//     return requestPost({
+//         url: /vuedemo/delete_shopcart,
+//         data
+//     })
+// }
+
+
+
+
+
 
 export function addShopCart(data) {
     return requestPost({
